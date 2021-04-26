@@ -32,6 +32,7 @@ interface IBlazor {
     endInvokeDotNetFromJS?: (callId: System_String, success: System_Boolean, resultJsonOrErrorMessage: System_String) => void;
     getPersistedState?: () => System_String;
     attachRootComponentToElement?: (arg0: any, arg1: any, arg2: any) => void;
+    detachRootComponentFromElement?: (selector: string, componentId: number, rendererId: number) => void;
     registeredComponents?: {
       getRegisteredComponentsCount: () => number,
       getId: (index) => number,
