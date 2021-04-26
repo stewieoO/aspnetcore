@@ -236,7 +236,13 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Hosting
             var services = _createServiceProvider();
             var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
-            return new WebAssemblyHost(services, scope, Configuration, RootComponents, _persistedState);
+            return new WebAssemblyHost(
+                services,
+                scope,
+                Configuration,
+                RootComponents,
+                _rootComponentCache,
+                _persistedState);
         }
 
         internal void InitializeDefaultServices()

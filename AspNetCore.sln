@@ -1606,7 +1606,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testassets", "testassets", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfTestApp", "src\Components\WebView\Platforms\Wpf\testassets\WpfTestApp\WpfTestApp.csproj", "{036C6BDA-7B69-4E8C-A921-822DA5972A56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebviewAppShared", "src\Components\WebView\Samples\WebviewAppShared\WebviewAppShared.csproj", "{64C3BAC8-C4F8-466A-9E84-0400EE54B25A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebviewAppShared", "src\Components\WebView\Samples\WebviewAppShared\WebviewAppShared.csproj", "{64C3BAC8-C4F8-466A-9E84-0400EE54B25A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestStartupAssembly1", "src\Hosting\test\testassets\TestStartupAssembly1\TestStartupAssembly1.csproj", "{262FF30C-34B4-462D-B5E2-0DABB9196E40}"
 EndProject
