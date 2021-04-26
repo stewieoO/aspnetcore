@@ -110,7 +110,7 @@ async function boot(options?: Partial<WebAssemblyStartOptions>): Promise<void> {
   };
 
   Blazor._internal.setComponentRenderer = (renderer) => {
-    if (Blazor._internal.setComponentRenderer) {
+    if (Blazor.renderRootComponent) {
       throw new Error('Component renderer already initialized.');
     }
 
