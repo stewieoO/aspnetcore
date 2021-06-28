@@ -45,7 +45,7 @@ namespace Microsoft.AspNetCore.Http.Connections.Internal
         private IDictionary<object, object?>? _items;
         private DateTimeOffset? _authenticationExpiration;
         private CancellationTokenSource _connectionClosedTokenSource;
-        private CancellationTokenSource _connectionClosingTokenSource;
+        private CancellationTokenSource _connectionCloseRequested;
 
         private CancellationTokenSource? _sendCts;
         private bool _activeSend;
@@ -95,8 +95,8 @@ namespace Microsoft.AspNetCore.Http.Connections.Internal
             _connectionClosedTokenSource = new CancellationTokenSource();
             ConnectionClosed = _connectionClosedTokenSource.Token;
 
-            _connectionClosingTokenSource = new CancellationTokenSource();
-            ConnectionClosedRequested = _connectionClosingTokenSource.Token;
+            _connectionCloseRequested = new CancellationTokenSource();
+            ConnectionClosedRequested = _connectionCloseRequested.Token;
         }
 
         public CancellationTokenSource? Cancellation { get; set; }
@@ -621,7 +621,7 @@ namespace Microsoft.AspNetCore.Http.Connections.Internal
 
         public void RequestClose()
         {
-            ThreadPool.UnsafeQueueUserWorkItem(cts => ((CancellationTokenSource)cts!).Cancel(), _connectionClosingTokenSource);
+            ThreadPool.UnsafeQueueUserWorkItem(cts => ((CancellationTokenSource)cts!).Cancel(), _connectionCloseRequested);
         }
 
         private static class Log
