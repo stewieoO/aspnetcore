@@ -341,6 +341,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http3
                         stream.Abort(connectionError, (Http3ErrorCode)_errorCodeFeature.Error);
                     }
 
+                    lock (_sync)
+                    {
+                        OutboundControlStream?.Abort(connectionError, (Http3ErrorCode)_errorCodeFeature.Error);
+                    }
+
                     while (_activeRequestCount > 0)
                     {
                         await _streamCompletionAwaitable;
@@ -351,7 +356,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http3
                 }
                 catch
                 {
-                    Abort(connectionError, Http3ErrorCode.NoError);
+                    Abort(connectionError, Http3ErrorCode.InternalError);
                     throw;
                 }
 

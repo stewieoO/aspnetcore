@@ -48,7 +48,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http3
             _headerType = -1;
 
             _frameWriter = new Http3FrameWriter(
-                context.Transport.Output,
+                Output,
                 context.StreamContext,
                 context.TimeoutControl,
                 httpLimits.MinResponseDataRate,
@@ -66,6 +66,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http3
         }
 
         public PipeReader Input => _context.Transport.Input;
+        public PipeWriter Output => _context.Transport.Output;
         public IKestrelTrace Log => _context.ServiceContext.Log;
 
         public long HeaderTimeoutTicks { get; set; }

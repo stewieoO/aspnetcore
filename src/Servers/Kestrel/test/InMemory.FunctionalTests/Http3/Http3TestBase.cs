@@ -231,6 +231,12 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
             }
 
             AssertConnectionError<TException>(expectedErrorCode, expectedErrorMessage);
+
+            // Verify HttpConnection.ProcessRequestsAsync has exited.
+            await _connectionTask.DefaultTimeout();
+
+            // Verify server-to-client control stream has completed.
+            await _inboundControlStream.ReceiveEndAsync();
         }
 
         internal void AssertConnectionError<TException>(Http3ErrorCode expectedErrorCode, params string[] expectedErrorMessage) where TException : Exception
