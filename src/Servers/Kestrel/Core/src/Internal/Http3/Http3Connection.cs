@@ -341,6 +341,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http3
                         stream.Abort(connectionError, (Http3ErrorCode)_errorCodeFeature.Error);
                     }
 
+                    // Ensure control stream creation task finished.
+                    // Error handling inside method ensures await won't throw.
+                    await controlStreamTask;
                     lock (_sync)
                     {
                         OutboundControlStream?.Abort(connectionError, (Http3ErrorCode)_errorCodeFeature.Error);
@@ -359,10 +362,6 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http3
                     Abort(connectionError, Http3ErrorCode.InternalError);
                     throw;
                 }
-
-                // Ensure control stream creation task finished. At this point the connection, including the control
-                // stream should be closed/aborted. Error handling inside method ensures await won't throw.
-                await controlStreamTask;
             }
         }
 
