@@ -48,7 +48,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http3
             _headerType = -1;
 
             _frameWriter = new Http3FrameWriter(
-                _context.Transport.Output,
+                context.Transport.Output,
                 context.StreamContext,
                 context.TimeoutControl,
                 httpLimits.MinResponseDataRate,
