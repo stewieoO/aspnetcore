@@ -453,15 +453,27 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http3
             return new Http3ControlStream<TContext>(application, httpConnectionContext);
         }
 
-        private ValueTask<FlushResult> SendGoAway(long id)
+        private async ValueTask<FlushResult> SendGoAway(long id)
         {
+            Http3ControlStream? stream;
             lock (_sync)
             {
-                if (OutboundControlStream != null)
+                stream = OutboundControlStream;
+            }
+
+            if (stream != null)
+            {
+                try
                 {
-                    return OutboundControlStream.SendGoAway(id);
+                    return await stream.SendGoAway(id);
+                }
+                catch
+                {
+                    // The control stream may not be healthy.
+                    // Ignore error sending go away.
                 }
             }
+
             return default;
         }
 

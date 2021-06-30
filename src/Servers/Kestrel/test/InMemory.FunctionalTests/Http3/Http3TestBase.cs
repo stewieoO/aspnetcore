@@ -187,13 +187,16 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
             if (_inboundControlStream == null)
             {
                 var reader = MultiplexedConnectionContext.ToClientAcceptQueue.Reader;
-                while (await reader.WaitToReadAsync())
+                while (await reader.WaitToReadAsync().DefaultTimeout())
                 {
                     while (reader.TryRead(out var stream))
                     {
                         _inboundControlStream = stream;
                         var streamId = await stream.TryReadStreamIdAsync();
-                        Debug.Assert(streamId == 0, "StreamId sent that was non-zero, which isn't handled by tests");
+
+                        // -1 means stream was completed.
+                        Debug.Assert(streamId == 0 || streamId == -1, "StreamId sent that was non-zero, which isn't handled by tests");
+
                         return _inboundControlStream;
                     }
                 }
