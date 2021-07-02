@@ -32,10 +32,6 @@
     <SuppressBaselineReference Include="Microsoft.AspNetCore.Authorization" InNuspecFile="true" />
   </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\ILLink.Substitutions.xml" LogicalName="ILLink.Substitutions.xml" />
-  </ItemGroup>
-
   <Target Name="_GetNuspecDependencyPackageVersions">
     <MSBuild Targets="_GetPackageVersionInfo"
         BuildInParallel="$(BuildInParallel)"
