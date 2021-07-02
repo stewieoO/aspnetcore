@@ -5,7 +5,7 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Components.HotReload;
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Microsoft.AspNetCore.Components.RenderTree
@@ -542,7 +542,7 @@ namespace Microsoft.AspNetCore.Components.RenderTree
             var oldParameters = new ParameterView(ParameterViewLifetime.Unbound, oldTree, oldComponentIndex);
             var newParametersLifetime = new ParameterViewLifetime(diffContext.BatchBuilder);
             var newParameters = new ParameterView(newParametersLifetime, newTree, newComponentIndex);
-            if (!newParameters.DefinitelyEquals(oldParameters) || (HotReloadFeature.IsSupported && diffContext.Renderer.IsHotReloading))
+            if (!newParameters.DefinitelyEquals(oldParameters) || (MetadataUpdater.IsSupported && diffContext.Renderer.IsMetadataUpdating))
             {
                 componentState.SetDirectParameters(newParameters);
             }

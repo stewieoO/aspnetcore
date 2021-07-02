@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Components.HotReload;
 using Microsoft.AspNetCore.Components.RenderTree;
 
@@ -45,9 +46,9 @@ namespace Microsoft.AspNetCore.Components
         public bool IsInitialized => _renderer is not null;
 
         /// <summary>
-        /// Gets a value that determines if the <see cref="Renderer"/> is triggering a render in response to a hot-reload change.
+        /// Gets a value that determines if the <see cref="Renderer"/> is triggering a render in response to a metadata update (hot-reload) change.
         /// </summary>
-        public bool IsHotReloading => HotReloadFeature.IsSupported && (_renderer?.IsHotReloading ?? false);
+        public bool IsMetadataUpdating => MetadataUpdater.IsSupported && (_renderer?.IsMetadataUpdating ?? false);
 
         /// <summary>
         /// Notifies the renderer that the component should be rendered.
