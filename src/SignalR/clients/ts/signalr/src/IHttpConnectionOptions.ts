@@ -32,6 +32,7 @@ export interface IHttpConnectionOptions {
      */
     accessTokenFactory?(): string | Promise<string>;
 
+    gatewayTokenFactory?(): string | Promise<string>;
     /** A boolean indicating if message content should be logged.
      *
      * Message content can contain sensitive user data, so this is disabled by default.

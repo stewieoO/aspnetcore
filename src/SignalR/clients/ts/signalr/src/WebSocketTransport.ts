@@ -13,6 +13,7 @@ import { Arg, getDataDetail, getUserAgentHeader, Platform } from "./Utils";
 export class WebSocketTransport implements ITransport {
     private readonly _logger: ILogger;
     private readonly _accessTokenFactory: (() => string | Promise<string>) | undefined;
+    private readonly _gatewayTokenFactory: (() => string | Promise<string>) | undefined;
     private readonly _logMessageContent: boolean;
     private readonly _webSocketConstructor: WebSocketConstructor;
     private readonly _httpClient: HttpClient;
@@ -22,10 +23,14 @@ export class WebSocketTransport implements ITransport {
     public onreceive: ((data: string | ArrayBuffer) => void) | null;
     public onclose: ((error?: Error) => void) | null;
 
-    constructor(httpClient: HttpClient, accessTokenFactory: (() => string | Promise<string>) | undefined, logger: ILogger,
+    constructor(httpClient: HttpClient,
+                accessTokenFactory: (() => string | Promise<string>) | undefined,
+                gatewayTokenFactory: (() => string | Promise<string>) | undefined,
+                logger: ILogger,
                 logMessageContent: boolean, webSocketConstructor: WebSocketConstructor, headers: MessageHeaders) {
         this._logger = logger;
         this._accessTokenFactory = accessTokenFactory;
+        this._gatewayTokenFactory = gatewayTokenFactory;
         this._logMessageContent = logMessageContent;
         this._webSocketConstructor = webSocketConstructor;
         this._httpClient = httpClient;
@@ -45,6 +50,13 @@ export class WebSocketTransport implements ITransport {
             const token = await this._accessTokenFactory();
             if (token) {
                 url += (url.indexOf("?") < 0 ? "?" : "&") + `access_token=${encodeURIComponent(token)}`;
+            }
+        }
+
+        if (this._gatewayTokenFactory) {
+            const gatewayToken = await this._gatewayTokenFactory();
+            if (gatewayToken) {
+                url += (url.indexOf("?") < 0 ? "?" : "&") + `gateway_token=${encodeURIComponent(gatewayToken)}`;
             }
         }
 
